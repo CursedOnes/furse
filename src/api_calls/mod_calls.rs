@@ -1,6 +1,6 @@
 use crate::{
     request::API_URL_BASE,
-    structures::{mod_structs::*, ID},
+    structures::{mod_structs::*, search_query::SearchQuery, ID},
     Furse, Result,
 };
 
@@ -48,5 +48,29 @@ impl Furse {
             )
             .await?
             .data)
+    }
+
+    /// Search mods with search query
+    ///
+    /// Example:
+    /// ```rust
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), furse::Error> {
+    /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
+    /// // Search query for mods with foo in name, descending
+    /// let search_query = furse::structures::search_query::SearchQuery {
+    ///     class_id: Some(6),
+    ///     search_filter: Some("foo"),
+    ///     sort_order: Some(furse::structures::search_query::SortOrder::Desc),
+    ///     ..Default::default()
+    /// };
+    /// // Search with search query
+    /// let found_mods = curseforge.search_mods(search_query).await?;
+    /// # Ok(()) }
+    /// ```
+    pub async fn search_mods(&self, search_query: impl AsRef<SearchQuery<'_>>) -> Result<Vec<Mod>> {
+        let mut url = API_URL_BASE.join("mods/search")?;
+        url.set_query(Some(&serde_urlencoded::to_string(search_query.as_ref())?));
+        Ok(self.get(url).await?.data)
     }
 }

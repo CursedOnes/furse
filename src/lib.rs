@@ -33,6 +33,8 @@ pub enum Error {
     ReqwestError(#[from] reqwest::Error),
     #[error("{}", .0)]
     URLParseError(#[from] url::ParseError),
+    #[error("{}", .0)]
+    SerdeUrlencodeError(#[from] serde_urlencoded::ser::Error),
 }
 pub(crate) type Result<T> = std::result::Result<T, Error>;
 
