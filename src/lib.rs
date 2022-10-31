@@ -28,11 +28,30 @@ pub use api_calls::fingerprint_calls::cf_fingerprint;
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("{}", .0)]
+    RequestError(reqwest::Error, reqwest::Response),
+    #[error("{}", .0)]
     ReqwestError(#[from] reqwest::Error),
     #[error("{}", .0)]
     URLParseError(#[from] url::ParseError),
 }
 pub(crate) type Result<T> = std::result::Result<T, Error>;
+
+impl Error {
+    pub fn is_response_status(&self) -> Option<reqwest::StatusCode> {
+        match self {
+            Error::RequestError(error, _) => error.status(),
+            Error::ReqwestError(error) => error.status(),
+            _ => None,
+        }
+    }
+
+    pub fn is_response(&self) -> Option<&reqwest::Response> {
+        match self {
+            Error::RequestError(_, response) => Some(response),
+            _ => None,
+        }
+    }
+}
 
 /// An instance of the API to invoke API calls on
 ///

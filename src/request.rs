@@ -12,15 +12,16 @@ impl Furse {
     where
         T: DeserializeOwned,
     {
-        Ok(self
+        let response = self
             .client
             .get(url)
             .header("x-api-key", &self.api_key)
-            .send()
-            .await?
-            .error_for_status()?
-            .json()
-            .await?)
+            .send().await?;
+
+        match response.error_for_status_ref() {
+            Ok(_) => Ok(response.json().await?),
+            Err(error) => Err(crate::Error::RequestError(error, response)),
+        }
     }
 
     /// Perform a GET request to `url` with `body`
