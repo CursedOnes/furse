@@ -11,12 +11,13 @@ pub struct Category {
     /// Category name
     pub name: String,
     /// The category slug as it appear in the URL
-    pub slug: String,
+    pub slug: Option<String>, // The "Technology" category has no slug
     /// The category URL
     pub url: Url,
     /// URL for the category icon
     pub icon_url: Url,
     /// Last modified date of the category
+    #[serde(deserialize_with = "deserialize_date_modified")]
     pub date_modified: UtcTime,
     /// A top level category for other categories
     pub is_class: Option<bool>,
@@ -24,6 +25,22 @@ pub struct Category {
     pub class_id: Option<ID>,
     /// The parent category for this category
     pub parent_category_id: Option<ID>,
+}
+
+//TODO proper decoding instead of this hack, needs to be able to handle e.g. "0001-01-01T00:00:00" from "Technology" category
+fn deserialize_date_modified<'de, D>(deserializer: D) -> Result<UtcTime, D::Error> where D: serde::Deserializer<'de> { 
+    let mut s: String = serde::Deserialize::deserialize(deserializer)?;
+
+    if let Ok(v) = chrono::DateTime::parse_from_rfc3339(&s) {
+        return Ok(v.with_timezone(&chrono::Utc));
+    }
+
+    s += "Z";
+
+    match chrono::DateTime::parse_from_rfc3339(&s) {
+        Ok(v) => Ok(v.with_timezone(&chrono::Utc)),
+        Err(e) => Err(serde::de::Error::custom(e)),
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
