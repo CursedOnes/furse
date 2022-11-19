@@ -25,10 +25,12 @@ mod request;
 pub mod structures;
 pub use api_calls::fingerprint_calls::cf_fingerprint;
 
+pub use reqwest;
+
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("{}", .0)]
-    RequestError(reqwest::Error, reqwest::Response),
+    RequestError(reqwest::Error, reqwest::blocking::Response),
     #[error("{}", .0)]
     ReqwestError(#[from] reqwest::Error),
     #[error("{}", .0)]
@@ -47,7 +49,7 @@ impl Error {
         }
     }
 
-    pub fn is_response(&self) -> Option<&reqwest::Response> {
+    pub fn is_response(&self) -> Option<&reqwest::blocking::Response> {
         match self {
             Error::RequestError(_, response) => Some(response),
             _ => None,
@@ -69,7 +71,7 @@ impl Error {
 /// ```
 #[derive(Clone, Debug)]
 pub struct Furse {
-    client: reqwest::Client,
+    client: reqwest::blocking::Client,
     api_key: String,
 }
 
@@ -85,7 +87,7 @@ impl Furse {
     /// ```
     pub fn new(api_key: &str) -> Self {
         Self {
-            client: reqwest::Client::new(),
+            client: reqwest::blocking::Client::new(),
             api_key: api_key.into(),
         }
     }

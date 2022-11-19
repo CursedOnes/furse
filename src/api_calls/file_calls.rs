@@ -18,13 +18,15 @@ impl Furse {
     /// assert!(terralith_files[0].is_available);
     /// # Ok(()) }
     /// ```
-    pub async fn get_mod_files(&self, mod_id: ID) -> Result<Vec<File>> {
+    pub fn get_mod_files(&self, mod_id: ID) -> Result<Vec<File>> {
         let mut url = API_URL_BASE
             .join("mods/")?
             .join(&format!("{}/", mod_id))?
             .join("files")?;
         url.set_query(Some("pageSize=10000"));
-        Ok(self.get(url).await?.data)
+        let resp: crate::api_calls::Response<Vec<File>> = self.get(url)?;
+        //eprintln!("Resp entries={} pagination=\n{:?}",resp.data.len(),&resp.pagination);
+        Ok(resp.data)
     }
 
     /// Get the file with `file_id` of mod with `mod_id`
@@ -40,7 +42,7 @@ impl Furse {
     /// assert!(terralith_file.file_name.contains("v2.0.12"));
     /// # Ok(()) }
     /// ```
-    pub async fn get_mod_file(&self, mod_id: ID, file_id: ID) -> Result<File> {
+    pub fn get_mod_file(&self, mod_id: ID, file_id: ID) -> Result<File> {
         Ok(self
             .get(
                 API_URL_BASE
@@ -49,7 +51,7 @@ impl Furse {
                     .join("files/")?
                     .join(&file_id.to_string())?,
             )
-            .await?
+            ?
             .data)
     }
 
@@ -66,7 +68,7 @@ impl Furse {
     /// assert!(terralith_file_changelog.contains("performance"));
     /// # Ok(()) }
     /// ```
-    pub async fn get_mod_file_changelog(&self, mod_id: ID, file_id: ID) -> Result<String> {
+    pub fn get_mod_file_changelog(&self, mod_id: ID, file_id: ID) -> Result<String> {
         Ok(self
             .get(
                 API_URL_BASE
@@ -76,7 +78,7 @@ impl Furse {
                     .join(&format!("{}/", file_id))?
                     .join("changelog")?,
             )
-            .await?
+            ?
             .data)
     }
 
@@ -95,7 +97,7 @@ impl Furse {
     /// assert!(Some(download_url) == terralith_mod_file.download_url);
     /// # Ok(()) }
     /// ```
-    pub async fn file_download_url(&self, mod_id: ID, file_id: ID) -> Result<url::Url> {
+    pub fn file_download_url(&self, mod_id: ID, file_id: ID) -> Result<url::Url> {
         Ok(self
             .get(
                 API_URL_BASE
@@ -105,7 +107,7 @@ impl Furse {
                     .join(&format!("{}/", file_id))?
                     .join("download-url")?,
             )
-            .await?
+            ?
             .data)
     }
 
@@ -122,11 +124,11 @@ impl Furse {
     /// assert!(files.len() == 2);
     /// # Ok(()) }
     /// ```
-    pub async fn get_files(&self, file_ids: Vec<ID>) -> Result<Vec<File>> {
+    pub fn get_files(&self, file_ids: Vec<ID>) -> Result<Vec<File>> {
         let file_ids = GetFilesBody { file_ids };
         let mut files: Vec<File> = self
             .post(API_URL_BASE.join("mods/")?.join("files")?, &file_ids)
-            .await?
+            ?
             .data;
         let mut actual_files = Vec::new();
         for file_id in file_ids.file_ids {

@@ -39,7 +39,7 @@ impl Furse {
     /// assert!(matches[0].file.id == terralith_file.id);
     /// # Ok(()) }
     /// ```
-    pub async fn get_fingerprint_matches(
+    pub fn get_fingerprint_matches(
         &self,
         fingerprints: Vec<usize>,
     ) -> Result<FingerprintMatches> {
@@ -48,7 +48,7 @@ impl Furse {
                 API_URL_BASE.join("fingerprints")?,
                 &GetFingerprintMatchesBody { fingerprints },
             )
-            .await?
+            ?
             .data)
     }
 }

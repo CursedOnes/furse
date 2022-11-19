@@ -18,10 +18,10 @@ impl Furse {
     /// assert!(terralith_mod.authors[0].name == "Starmute");
     /// # Ok(()) }
     /// ```
-    pub async fn get_mod(&self, mod_id: ID) -> Result<Mod> {
+    pub fn get_mod(&self, mod_id: ID) -> Result<Mod> {
         Ok(self
             .get(API_URL_BASE.join("mods/")?.join(&mod_id.to_string())?)
-            .await?
+            ?
             .data)
     }
 
@@ -38,7 +38,7 @@ impl Furse {
     /// assert!(terralith_mod_description.contains("Terralith"));
     /// # Ok(()) }
     /// ```
-    pub async fn get_mod_description(&self, mod_id: ID) -> Result<String> {
+    pub fn get_mod_description(&self, mod_id: ID) -> Result<String> {
         Ok(self
             .get(
                 API_URL_BASE
@@ -46,7 +46,7 @@ impl Furse {
                     .join(&format!("{}/", mod_id))?
                     .join("description")?,
             )
-            .await?
+            ?
             .data)
     }
 
@@ -68,9 +68,9 @@ impl Furse {
     /// let found_mods = curseforge.search_mods(search_query).await?;
     /// # Ok(()) }
     /// ```
-    pub async fn search_mods(&self, search_query: impl AsRef<SearchQuery<'_>>) -> Result<Vec<Mod>> {
+    pub fn search_mods<'a>(&self, search_query: impl AsRef<SearchQuery<'a>>) -> Result<Vec<Mod>> {
         let mut url = API_URL_BASE.join("mods/search")?;
         url.set_query(Some(&serde_urlencoded::to_string(search_query.as_ref())?));
-        Ok(self.get(url).await?.data)
+        Ok(self.get(url)?.data)
     }
 }

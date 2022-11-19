@@ -8,7 +8,7 @@ lazy_static::lazy_static! {
 
 impl Furse {
     /// Perform a GET request to `url` and deserialise to `T`
-    pub(crate) async fn get<T>(&self, url: impl IntoUrl) -> Result<Response<T>>
+    pub(crate) fn get<T>(&self, url: impl IntoUrl) -> Result<Response<T>>
     where
         T: DeserializeOwned,
     {
@@ -16,16 +16,16 @@ impl Furse {
             .client
             .get(url)
             .header("x-api-key", &self.api_key)
-            .send().await?;
+            .send()?;
 
         match response.error_for_status_ref() {
-            Ok(_) => Ok(response.json().await?),
+            Ok(_) => Ok(response.json()?),
             Err(error) => Err(crate::Error::RequestError(error, response)),
         }
     }
 
     /// Perform a GET request to `url` with `body`
-    pub(crate) async fn post<T, B>(&self, url: impl IntoUrl, body: &B) -> Result<Response<T>>
+    pub(crate) fn post<T, B>(&self, url: impl IntoUrl, body: &B) -> Result<Response<T>>
     where
         T: DeserializeOwned,
         B: Serialize,
@@ -36,9 +36,9 @@ impl Furse {
             .json(body)
             .header("x-api-key", &self.api_key)
             .send()
-            .await?
+            ?
             .error_for_status()?
             .json()
-            .await?)
+            ?)
     }
 }
