@@ -21,20 +21,17 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod's v2.0.12 file
-    /// let terralith_file = curseforge.get_mod_file(513688, 3606078).await?;
+    /// let terralith_file = curseforge.get_mod_file(513688, 3606078)?;
     /// // Download the file contents
-    /// let mut contents = reqwest::get(terralith_file.download_url.unwrap())
-    ///     .await?
-    ///     .bytes()
-    ///     .await?;
+    /// let mut contents = reqwest::blocking::get(terralith_file.download_url.unwrap())?
+    ///     .bytes()?;
     /// // Hash the contents
     /// let fingerprint = furse::cf_fingerprint(&contents);
     /// // Get the fingerprint matches
-    /// let matches = curseforge.get_fingerprint_matches(vec![fingerprint]).await?.exact_matches;
+    /// let matches = curseforge.get_fingerprint_matches(vec![fingerprint])?.exact_matches;
     /// // The resulting file should have the same ID
     /// assert!(matches[0].file.id == terralith_file.id);
     /// # Ok(()) }

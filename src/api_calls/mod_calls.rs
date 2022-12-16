@@ -9,11 +9,10 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod
-    /// let terralith_mod = curseforge.get_mod(513688).await?;
+    /// let terralith_mod = curseforge.get_mod(513688)?;
     /// // Check that it is made by Starmute
     /// assert!(terralith_mod.authors[0].name == "Starmute");
     /// # Ok(()) }
@@ -29,11 +28,10 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod's description
-    /// let terralith_mod_description = curseforge.get_mod_description(513688).await?;
+    /// let terralith_mod_description = curseforge.get_mod_description(513688)?;
     /// // The description would obviously contains the mod's name
     /// assert!(terralith_mod_description.contains("Terralith"));
     /// # Ok(()) }
@@ -54,8 +52,7 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Search query for mods with foo in name, descending
     /// let search_query = furse::structures::search_query::SearchQuery {
@@ -65,7 +62,7 @@ impl Furse {
     ///     ..Default::default()
     /// };
     /// // Search with search query
-    /// let found_mods = curseforge.search_mods(search_query).await?;
+    /// let found_mods = curseforge.search_mods(search_query)?;
     /// # Ok(()) }
     /// ```
     pub fn search_mods<'a>(&self, search_query: impl AsRef<SearchQuery<'a>>) -> Result<Vec<Mod>> {

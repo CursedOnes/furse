@@ -62,11 +62,11 @@ impl Error {
 /// To initialise this container,
 /// ```rust
 /// # use furse::Furse;
-/// # #[tokio::main]
-/// # async fn main() -> Result<(), furse::Error> {
+/// # 
+/// # fn main() -> Result<(), furse::Error> {
 /// let curseforge = Furse::new(env!("CURSEFORGE_API_KEY"));
 /// // Use the instance to call the API
-/// let terralith_mod = curseforge.get_mod(513688).await?;
+/// let terralith_mod = curseforge.get_mod(513688)?;
 /// # Ok(()) }
 /// ```
 #[derive(Clone, Debug)]

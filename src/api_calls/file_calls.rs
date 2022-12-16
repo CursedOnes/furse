@@ -9,11 +9,10 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod's files
-    /// let terralith_files = curseforge.get_mod_files(513688).await?;
+    /// let terralith_files = curseforge.get_mod_files(513688)?;
     /// // Check that the latest file is downloadable
     /// assert!(terralith_files[0].is_available);
     /// # Ok(()) }
@@ -33,11 +32,11 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # 
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod's v2.0.12 file
-    /// let terralith_file = curseforge.get_mod_file(513688, 3606078).await?;
+    /// let terralith_file = curseforge.get_mod_file(513688, 3606078)?;
     /// // Check that it contains the version in the file name
     /// assert!(terralith_file.file_name.contains("v2.0.12"));
     /// # Ok(()) }
@@ -59,11 +58,10 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the Terralith mod's v2.0.12 file's changelog
-    /// let terralith_file_changelog = curseforge.get_mod_file_changelog(513688, 3606078).await?;
+    /// let terralith_file_changelog = curseforge.get_mod_file_changelog(513688, 3606078)?;
     /// // This update had huge performance updates so check that that is mentioned in the changelog
     /// assert!(terralith_file_changelog.contains("performance"));
     /// # Ok(()) }
@@ -86,13 +84,12 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get information about the file
-    /// let terralith_mod_file = curseforge.get_mod_file(513688, 3606078).await?;
+    /// let terralith_mod_file = curseforge.get_mod_file(513688, 3606078)?;
     /// // Get the file's download url
-    /// let download_url = curseforge.file_download_url(513688, 3606078).await?;
+    /// let download_url = curseforge.file_download_url(513688, 3606078)?;
     /// // They should be the same url
     /// assert!(Some(download_url) == terralith_mod_file.download_url);
     /// # Ok(()) }
@@ -115,11 +112,10 @@ impl Furse {
     ///
     /// Example:
     /// ```rust
-    /// # #[tokio::main]
-    /// # async fn main() -> Result<(), furse::Error> {
+    /// # fn main() -> Result<(), furse::Error> {
     /// # let curseforge = furse::Furse::new(env!("CURSEFORGE_API_KEY"));
     /// // Get the 2 files
-    /// let files = curseforge.get_files(vec![3144153, 3778436]).await?;
+    /// let files = curseforge.get_files(vec![3144153, 3778436])?;
     /// // The response should have the same amount of files
     /// assert!(files.len() == 2);
     /// # Ok(()) }
