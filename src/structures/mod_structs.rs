@@ -6,7 +6,7 @@ use super::{
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct Mod {
     /// The mod ID
     pub id: ID,
@@ -63,7 +63,7 @@ pub struct Mod {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct ModLinks {
     pub website_url: Url,
     #[serde(deserialize_with = "deserialise_optional_url")]
@@ -91,7 +91,7 @@ pub enum ModStatus {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct ModAuthor {
     pub id: ID,
     pub name: String,
@@ -100,7 +100,7 @@ pub struct ModAuthor {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct ModAsset {
     pub id: ID,
     pub mod_id: ID,

@@ -5,7 +5,7 @@ use super::{
 
 #[derive(Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct SearchQuery<'a> {
     /// Filter by game id
     pub game_id: ID,

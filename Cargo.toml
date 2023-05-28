@@ -24,3 +24,8 @@ serde_repr = "0.1.9"
 thiserror = "1.0.37"
 murmur2 = "0.1.0"
 serde_urlencoded = "0.7"
+
+[features]
+default = ["serde_deny_unknown_fields"]
+
+serde_deny_unknown_fields = []

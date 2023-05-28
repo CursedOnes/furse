@@ -2,7 +2,7 @@ use super::*;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct Category {
     pub id: ID,
     /// The game id related to the category
@@ -43,7 +43,7 @@ fn deserialize_date_modified<'de, D>(deserializer: D) -> Result<UtcTime, D::Erro
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct SortableGameVersion {
     /// Original version name (e.g. 1.5b)
     pub game_version_name: String,
@@ -57,7 +57,7 @@ pub struct SortableGameVersion {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct Pagination {
     /// A zero based index of the first item included in the response
     pub index: Number,

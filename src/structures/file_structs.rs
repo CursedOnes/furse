@@ -5,7 +5,7 @@ use super::{
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct File {
     pub id: ID,
     /// The game ID of the mod that this file belongs to
@@ -72,7 +72,7 @@ pub enum FileStatus {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct FileIndex {
     pub game_version: String,
     pub file_id: ID,
@@ -84,7 +84,7 @@ pub struct FileIndex {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct FileHash {
     pub value: String,
     pub algo: HashAlgo,
@@ -99,7 +99,7 @@ pub enum HashAlgo {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct FileDependency {
     pub mod_id: ID,
     pub relation_type: FileRelationType,
@@ -118,7 +118,7 @@ pub enum FileRelationType {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct FileModule {
     pub name: String,
     pub fingerprint: Number,
@@ -126,7 +126,7 @@ pub struct FileModule {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
-#[serde(deny_unknown_fields)]
+#[cfg_attr(feature = "serde_deny_unknown_fields", serde(deny_unknown_fields))]
 pub struct GetFilesBody {
     pub file_ids: Vec<ID>,
 }
