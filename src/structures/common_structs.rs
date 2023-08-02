@@ -78,4 +78,5 @@ pub enum ModLoaderType {
     LiteLoader = 3,
     Fabric = 4,
     Quilt = 5,
+    NeoForge = 6,
 }
